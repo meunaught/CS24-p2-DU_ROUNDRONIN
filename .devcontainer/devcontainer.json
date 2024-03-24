@@ -11,9 +11,7 @@
 			"installOhMyZsh": true,
 			"installOhMyZshConfig": true,
 			"upgradePackages": true,
-			"username": "vscode",
-			"userUid": "1001",
-			"userGid": "1001"
+			"username": "vscode"
 		},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
 			"plugins": "ssh-agent npm zsh-autosuggestions zsh-completions zsh-syntax-highlighting",
