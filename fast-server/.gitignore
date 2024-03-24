@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+
+# Dependency directories
+venv/
+env/
+env37/
+.idea/
+.vscode/
+
+# Environment variables file
+.env
+
+# Editor temporary files
+*.swp
+*.swo
+*.swm
+*.swn
+*.swl
+*.pyc
+*~
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dll
+*.exe
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
