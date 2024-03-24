@@ -1,0 +1,22 @@
+# Next.js build artifacts
+.next/
+
+# Node.js modules
+node_modules/
+
+# Production build output (if using Next.js export)
+out/
+
+# Development-specific files
+.env  # Local development environment variables
+
+# Testing and logging
+npm-debug.log
+
+# Version control
+.git/
+.gitignore
+
+# Editor preferences (adjust as needed)
+.vscode/  # For Visual Studio Code
+# Replace with your preferred editor directory if necessary
