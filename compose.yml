@@ -15,7 +15,6 @@ services:
     build: ./fast-server
     volumes:
       - ./fast-server/app:/code/app
-      - ./fast-server/requirements.txt:/code/requirements.txt
     restart: always
     ports:
       - 5000:5000
