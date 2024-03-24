@@ -1,23 +1,22 @@
-## Prerequisites
-
-Install [Docker Desktop](https://docs.docker.com/get-docker) for Mac, Windows, or Linux. Docker Desktop includes Docker Compose as part of the installation.
-
 ## Development
-Run the development server:
+Run both servers together:
 ```bash
 docker compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-## Useful commands
-
+Run front-end only:
 ```bash
-# Stop all running containers
-docker kill $(docker ps -aq) && docker rm $(docker ps -aq)
-
-# Free space
-docker system prune -af --volumes
+docker compose up next-app --build
 ```
+
+Run backend only:
+```bash
+docker compose up fast-server --build
+```
+
+Open [http://localhost:3000](http://localhost:3000) to access frontend.
+Open [http://localhost:5000](http://localhost:5000) to access backend.
+
+
+## Notes
+The repo is devcontainer compatible, you can simply open it in github codespaces and run the docker commands from there.
