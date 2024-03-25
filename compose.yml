@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   next-app:
     container_name: next-app
@@ -10,4 +8,11 @@ services:
     restart: always
     ports:
       - 3000:3000
-
+  fast-server:
+    container_name: fast-server
+    build: ./fast-server
+    volumes:
+      - ./fast-server/app:/code/app
+    restart: always
+    ports:
+      - 5000:5000
