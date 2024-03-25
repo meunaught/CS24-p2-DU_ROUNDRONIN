@@ -5,7 +5,7 @@ services:
     container_name: next-app
     build: ./next-app
     volumes:
-      - ./next-app/src:/app/src
+      - ./next-app:/app
       - ./next-app/public:/app/public
     restart: always
     ports:
