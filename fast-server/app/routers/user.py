@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.get("/",status_code=status.HTTP_200_OK ,response_model=list[schemas.UserOut])
+@router.get("/",response_model=list[schemas.UserOut])
 def get_users(db: Session = Depends(get_db)):
     users = db.query(models.User).all()
     return users
@@ -29,11 +29,23 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 
-@router.get('/{id}', response_model=schemas.UserOut)
+@router.get('/{userId}', response_model=schemas.UserOut)
 def get_user(id: int, db: Session = Depends(get_db), ):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with id: {id} does not exist")
+
+    return user
+
+@router.put('/{userId}', response_model=schemas.UserOut)
+def update_user(id: int, user: schemas.UserUpdate, db: Session = Depends(get_db)):
+    db_user = db.query(models.User).filter(models.User.id == id).first()
+    if not db_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with id: {id} does not exist")
+    db_user.email = user.email
+    db.commit()
+    db.refresh(user)
 
     return user

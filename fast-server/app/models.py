@@ -9,4 +9,4 @@ class User(Base):
     email= Column(String, unique=True, nullable=False)
     password= Column(String, nullable=False)
     created_at=Column(TIMESTAMP(timezone=True), server_default=text('now()'), nullable=False)
-    role_id= Column(Integer, Sequence('role_id_seq', start=1000, increment=1), nullable=False)
+    role_id= Column(Integer, server_default='1000', nullable=False)
