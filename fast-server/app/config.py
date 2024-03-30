@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    database_hostname: str = 'localhost'
+    database_hostname: str = 'db-postgres'
     database_port: str = '5432'
     database_password: str = 'postgres'
     database_name: str = 'postgres'
