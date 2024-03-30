@@ -3,16 +3,33 @@ services:
     container_name: next-app
     build: ./next-app
     volumes:
-      - ./next-app:/app
-      - ./next-app/public:/app/public
+      - ./next-app/app:/next-app/app
+      - ./next-app/public:/next-app/public
     restart: always
     ports:
       - 3000:3000
   fast-server:
     container_name: fast-server
     build: ./fast-server
+    env_file:
+      - ./fast-server/.env
     volumes:
       - ./fast-server/app:/code/app
     restart: always
     ports:
       - 5000:5000
+  db:
+    image: postgres:13-alpine
+    container_name: db-postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres-data:
