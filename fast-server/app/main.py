@@ -6,7 +6,8 @@ from .database import engine
 from .routers import user
 from .config import settings
 
-app = FastAPI()
+
+app = FastAPI(log_level="debug")
 
 origins = ["*"]
 

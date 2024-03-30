@@ -1,8 +1,6 @@
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Sequence
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-
 from .database import Base
 
 class User(Base):
@@ -11,4 +9,4 @@ class User(Base):
     email= Column(String, unique=True, nullable=False)
     password= Column(String, nullable=False)
     created_at=Column(TIMESTAMP(timezone=True), server_default=text('now()'), nullable=False)
-    role= Column(String, nullable=False, server_default='Unassigned')
+    role_id= Column(Integer, Sequence('role_id_seq', start=1000, increment=1), nullable=False)
