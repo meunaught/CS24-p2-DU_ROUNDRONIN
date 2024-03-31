@@ -1,14 +1,17 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
+import { useRouter } from "next/navigation";
+import ReactLoading from "react-loading";
 
-
-const NavBar = () => {
+const Nav = () => {
+      const router = useRouter();
       return (
             <div className="h-[18vh] w-[100vw] top-0 border-b-[1px] bg-[#0f1521b6] border-[#ffffff35] z-[1000] fixed z-[1000]">
                   <div className="w-full h-full flex flex-row justify-center items-center">
-                        <div className="w-[20%] pl-[2%] h-full flex flex-col justify-center items-center">
-                              <img className="h-[80%] " src="/Image/logofigma.png" alt="logo" />
+                        <div className="w-[20%] pl-[2%] h-full flex flex-col justify-center items-center cursor-pointer">
+                              <img onClick={() => { router.push("/") }} className="h-[80%] " src="/Image/logofigma.png" alt="logo" />
                         </div>
                         <div className="w-[40%]  max-xl:w-[38%] h-full align-middle flex flex-col gap-1 justify-start mt-[2%] items-center">
                               <div className=" font-rocknroll text-center text-white whitespace-nowrap  text-[35px] max-xl:text-[30px] max-lg:text-[25px]">Waste Management System</div>
@@ -38,6 +41,16 @@ const NavBar = () => {
                   </div>
             </div>
       );
+}
+
+const NavBar = () => {
+
+
+      const router = useRouter();
+      return (
+            <Nav />
+      )
+
 };
 
 export default NavBar;

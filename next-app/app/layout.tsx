@@ -36,6 +36,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en" >
       <head>
@@ -62,29 +63,7 @@ export default function RootLayout({
       <body className="w-screen min-h-screen bg-gradient-to-b from-[#0F1521] via-[#0b1c3e] to-[#0F1521]  bg-cover z-[-1] bg-fixed">
 
 
-        <header className="flex flex-col w-[100vw] justify-center items-center h-[20vh] z-50 fixed">
-          <NavBar />
-        </header>
-        <div className="w-full h-full" >
-          <ul className="background "  >
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-          <main className="flex flex-row w-screen h-screen justify-center items-center ">{children}</main>
-
-        </div>
-
+        {children}
       </body>
     </html >
   );

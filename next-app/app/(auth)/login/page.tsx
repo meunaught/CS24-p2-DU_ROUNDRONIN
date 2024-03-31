@@ -76,7 +76,7 @@ const Login = () => {
                   })]).then((response) => {
                         const { access_token } = response[0].data;
 
-                        localStorage.setItem('accessToken', access_token);
+                        localStorage.setItem('access_token', access_token);
 
                         console.log('Access Token stored:', localStorage.getItem('accessToken'));
 
@@ -90,6 +90,8 @@ const Login = () => {
                               progress: undefined
                         });
                         setAllComponentsLoaded(true);
+
+                        router.push("/");
 
                   }
                   ).catch((error) => {
