@@ -59,13 +59,14 @@ export default function RootLayout({
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
       </head>
 
-      <body className="w-[100vw] h-[100vh]">
+      <body className="w-screen min-h-screen bg-gradient-to-b from-[#0F1521] via-[#0b1c3e] to-[#0F1521]  bg-cover z-[-1] bg-fixed">
 
 
-        <nav><NavBar /></nav>
-
-        <div className="w-[100vw] h-[100vh] background bg-gradient-to-b from-[#0F1521] via-[#0b1c3e] to-[#0F1521] fixed overflow-hidden">
-          <ul className="background">
+        <header className="flex flex-col w-[100vw] justify-center items-center h-[20vh] z-50 fixed">
+          <NavBar />
+        </header>
+        <div className="w-full h-full" >
+          <ul className="background "  >
             <li></li>
             <li></li>
             <li></li>
@@ -80,7 +81,7 @@ export default function RootLayout({
             <li></li>
             <li></li>
           </ul>
-          <main className="w-full ">{children}</main>
+          <main className="flex flex-row w-screen h-screen justify-center items-center ">{children}</main>
 
         </div>
 
