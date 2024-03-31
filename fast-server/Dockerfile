@@ -6,11 +6,17 @@ WORKDIR /code
 
 # 
 COPY ./requirements.txt /code/requirements.txt
+COPY ./alembic.ini /code/alembic.ini
 
 # 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # 
 COPY ./app /code/app
+COPY ./alembic /code/alembic
+COPY ./docker/entrypoint.sh /code/entrypoint.sh
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
+#
+RUN chmod +x /code/entrypoint.sh
+ENTRYPOINT [ "/code/entrypoint.sh" ]
+

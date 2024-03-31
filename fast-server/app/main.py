@@ -1,10 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from . import models
-from .database import engine
-from .routers import user, auth
-from .config import settings
+from app.routers import user, auth
 
 
 app = FastAPI(log_level="debug")
