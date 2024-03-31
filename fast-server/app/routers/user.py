@@ -44,8 +44,9 @@ def update_user(id: int, user: schemas.UserUpdate, db: Session = Depends(get_db)
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with id: {id} does not exist")
-    db_user.email = user.email
-    db.commit()
-    db.refresh(user)
+    if user.email:
+        db_user.email = user.email
+        db.commit()
+        db.refresh(user)
 
     return user
