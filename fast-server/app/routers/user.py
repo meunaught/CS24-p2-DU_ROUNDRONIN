@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
-from .. import models, schemas, utils
+from .. import models, schemas, utils, oauth2
 from ..database import get_db
 
 router = APIRouter(
@@ -10,7 +10,10 @@ router = APIRouter(
 
 
 @router.get("/",response_model=list[schemas.UserOut])
-def get_users(db: Session = Depends(get_db)):
+def get_users(isSuperUser: bool = Depends(oauth2.is_superuser), db: Session = Depends(get_db)):
+    if not isSuperUser:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Insufficicent Permissions")
     users = db.query(models.User).all()
     return users
 
@@ -29,7 +32,10 @@ def get_user(id: int, db: Session = Depends(get_db), ):
     return user
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db), isSuperUser: bool = Depends(oauth2.is_superuser)):
+    if not isSuperUser:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Insufficicent Permissions")
     if db.query(models.User).filter(models.User.email == user.email).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f"User with email: {user.email} already exists")
@@ -45,7 +51,11 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @router.put('/{userId}', response_model=schemas.UserOut)
-def update_user(id: int, user: schemas.UserUpdate, db: Session = Depends(get_db)):
+def update_user(id: int, user: schemas.UserUpdate, db: Session = Depends(get_db), current_user: models.User = Depends(oauth2.get_current_user)):
+    if current_user.id != id:
+        if current_user.role_id != 1001:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                detail="Insufficicent Permissions")
     db_user = db.query(models.User).filter(models.User.id == id).first()
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -58,7 +68,10 @@ def update_user(id: int, user: schemas.UserUpdate, db: Session = Depends(get_db)
     return db_user
 
 @router.put('/{userId}/roles/', response_model=schemas.UserOut)
-def update_role(role_id : int, user_id: int, db: Session = Depends(get_db)):
+def update_role(role_id : int, user_id: int, db: Session = Depends(get_db), isSuperU: bool = Depends(oauth2.is_superuser)):
+    if not current_user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Insufficicent Permissions")
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -74,7 +87,10 @@ def update_role(role_id : int, user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 @router.delete('/{userId}', status_code=status.HTTP_204_NO_CONTENT, response_model=None)
-def delete_user(id: int, db: Session = Depends(get_db)):
+def delete_user(id: int, db: Session = Depends(get_db), isSuperUser: bool = Depends(oauth2.is_superuser)):
+    if not isSuperUser:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Insufficicent Permissions")
     db_user = db.query(models.User).filter(models.User.id == id).first()
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
