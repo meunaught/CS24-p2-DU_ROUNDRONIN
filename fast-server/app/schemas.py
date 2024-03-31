@@ -46,14 +46,15 @@ class RoleCreate(BaseModel):
     name: str = 'Unassigned'
     description: Optional[str] = 'Default role for unassigned users'
 
-class PermissionCreate(BaseModel):
-    name: str
-    description: str
-
 class PermissionOut(BaseModel):
     id: int
     name: str
     description: str
+
+class PermissionCreate(BaseModel):
+    id: int = 0
+    name: str = "Admin Access"
+    description: Optional[str] = "Full access to all resources"
 
     class config:
         from_attributes = True

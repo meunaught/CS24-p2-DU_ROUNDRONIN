@@ -30,6 +30,16 @@ def create_role(role: schemas.RoleCreate, db: Session = Depends(get_db)):
     db.refresh(new_role)
     return new_role
 
+@router.post("/permissions", status_code=status.HTTP_201_CREATED, response_model=schemas.PermissionOut)
+def create_permission(permission: schemas.PermissionCreate, db: Session = Depends(get_db)):
+    if db.query(models.Permission).filter(models.Permission.id == permission.id).first():
+        raise HTTPException(status_code=400, detail="Permission already exists")
+    new_permission = models.Permission(**permission.dict())
+    db.add(new_permission)
+    db.commit()
+    db.refresh(new_permission)
+    return new_permission
+
 @router.delete("/roles/{roleId}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_role(roleId: int, db: Session = Depends(get_db)):
     if roleId == 1000:
