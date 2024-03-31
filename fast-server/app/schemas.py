@@ -15,7 +15,7 @@ class UserOut(BaseModel):
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-    role_id: Optional[int]
+    role_id: Optional[int] = 1000
 
 
 class UserUpdate(BaseModel):
@@ -59,4 +59,6 @@ class PermissionCreate(BaseModel):
     class config:
         from_attributes = True
 
-
+class RolePermission(BaseModel):
+    role_id: int
+    permission_id: int
