@@ -8,12 +8,14 @@ from pydantic.types import conint
 class UserOut(BaseModel):
     id: int
     email: EmailStr
+    role_id: int
     class Config:
         from_attributes = True
 
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
+    role_id: Optional[int]
 
 
 class UserUpdate(BaseModel):
@@ -30,4 +32,31 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+
+class RoleOut(BaseModel):
+    id: int
+    name: str
+    description: str
+
+    class config:
+        from_attributes = True
+
+class RoleCreate(BaseModel):
+    id: int = 1000
+    name: str = 'Unassigned'
+    description: Optional[str] = 'Default role for unassigned users'
+
+class PermissionOut(BaseModel):
+    id: int
+    name: str
+    description: str
+
+class PermissionCreate(BaseModel):
+    id: int = 0
+    name: str = "Admin Access"
+    description: Optional[str] = "Full access to all resources"
+
+    class config:
+        from_attributes = True
+
 
