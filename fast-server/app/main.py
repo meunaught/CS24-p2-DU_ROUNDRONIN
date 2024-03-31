@@ -1,9 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import user, auth
-
+from app.routers import user, auth, rbac
+from . import database
 
 app = FastAPI(log_level="debug")
+
+async def startup_event():
+    print("Starting up the application")
+    database.seed()
+    
+@app.on_event("startup")
+async def startup():
+    await startup_event()
 
 origins = ["*"]
 
@@ -17,6 +25,7 @@ app.add_middleware(
 
 app.include_router(user.router)
 app.include_router(auth.router)
+app.include_router(rbac.router)
 
 @app.get("/")
 def root():
