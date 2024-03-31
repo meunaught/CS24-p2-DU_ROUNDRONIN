@@ -6,19 +6,23 @@ import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import ReactLoading from 'react-loading';
 import { useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const Createuser = () => {
       const [allComponentsLoaded, setAllComponentsLoaded] = useState(false);
-
+      const [email, setEmail] = useState('')
+      const [name, setName] = useState('')
+      const [phone, setPhone] = useState('')
+      const router = useRouter();
 
       useEffect(() => {
             // Simulate loading of components or content
             Promise.all([
                   // Simulate async loading, e.g., fetching data or waiting for images to load
-                  new Promise((resolve) => setTimeout(resolve, 1000)), // Placeholder for actual loading logic
-                  new Promise((resolve) => setTimeout(resolve, 1500)), // Adjust times based on your needs
+                  new Promise((resolve) => setTimeout(resolve, 0)), // Placeholder for actual loading logic
+                  new Promise((resolve) => setTimeout(resolve, 0)), // Adjust times based on your needs
                   // Add more promises for other components or content
             ]).then(() => {
                   setAllComponentsLoaded(true);
@@ -28,13 +32,12 @@ const Createuser = () => {
       if (!allComponentsLoaded) {
             return (
                   <div className="w-full h-screen flex flex-col justify-center items-center">
+
+                        <ToastContainer />
                         <ReactLoading type={"cylon"} height={100} width={100} />
                   </div>
             );
       }
-      const [email, setEmail] = useState("")
-      const [name, setName] = useState("")
-      const [phone, setPhone] = useState("")
       const handleSubmit = async () => {
 
             const params = new URLSearchParams();
@@ -54,7 +57,13 @@ const Createuser = () => {
 
             setAllComponentsLoaded(false)
             Promise.all([
-                  axios.post('http://localhost:5000/auth/login', )]).then((response) => {
+                  axios.post('http://localhost:5000/users',
+                        {
+                              "email": email,
+                              "password": "string",
+                              "role_id": 0
+                        }
+                  )]).then((response) => {
                         const { access_token } = response[0].data;
 
                         localStorage.setItem('access_token', access_token);
@@ -102,8 +111,10 @@ const Createuser = () => {
       };
       return (
             <div className="w-full h-full flex flex-col justify-center items-center ml-[5%]">
+
                   <div className="w-full  min-h-screen flex flex-col justify-center items-center z-10 pt-[20%] ">
                         <div className={`w-[45%]  h-full  bg-[#ffffff09] rounded-xl m-10  bottom-1 border-white min-w-[300px] backdrop-blur-lg  py[200px] flex flex-col justify-center items-center pt-[2%] `}>
+
                               <div className="text-white font-rocknroll text-[30px]  font-bold">
                                     Create a new user
                               </div>
@@ -150,6 +161,7 @@ const Createuser = () => {
 
 
                   </div>
+
             </div>
       )
 }
