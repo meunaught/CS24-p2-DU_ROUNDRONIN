@@ -8,24 +8,26 @@ services:
     restart: always
     ports:
       - 3000:3000
+    depends_on:
+      - fast-server
   fast-server:
     container_name: fast-server
     build: ./fast-server
     env_file:
-      - ./fast-server/.env
+      - ./fast-server/.server.env
     volumes:
       - ./fast-server/app:/code/app
     restart: always
     ports:
       - 5000:5000
+    depends_on:
+      - db
   db:
     image: postgres:13-alpine
     container_name: db-postgres
     restart: always
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file:
+      - ./fast-server/.postgres.env
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
