@@ -1,4 +1,5 @@
 # macOS
+
 .DS_Store
 # Xcode
 *.pbxuser
@@ -31,3 +32,4 @@ fastlane/test_output
 
 # Code Injection
 injected_container
+node_modules/
