@@ -68,8 +68,8 @@ def update_user(id: int, user: schemas.UserUpdate, db: Session = Depends(get_db)
     return db_user
 
 @router.put('/{userId}/roles/', response_model=schemas.UserOut)
-def update_role(role_id : int, user_id: int, db: Session = Depends(get_db), isSuperU: bool = Depends(oauth2.is_superuser)):
-    if not current_user:
+def update_role(role_id : int, user_id: int, db: Session = Depends(get_db), isSuperUser: bool = Depends(oauth2.is_superuser)):
+    if not isSuperUser:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Insufficicent Permissions")
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
