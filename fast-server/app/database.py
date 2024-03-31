@@ -5,7 +5,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
 from .config import settings
-from . import models
+from . import models, utils
 
 initial_roles = [
     {"id":1000, "name":"Unassigned", "description":"Default role for unassigned users"},
@@ -19,7 +19,7 @@ initial_permissions = [
 ]
 
 initial_users = [
-    {"id":0, "email":"admin@cs.com", "password":"cs", "role_id":1001}
+    {"id":0, "email":"admin@cs.com", "password":utils.hash("admin"), "role_id":1001}
 ]
 
 initial_role_permissions = [
