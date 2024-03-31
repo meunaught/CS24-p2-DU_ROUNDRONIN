@@ -5,6 +5,14 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
 from .config import settings
+from . import models
+
+initial_roles = [
+    {"id":1000, "name":"Unassigned", "description":"Default role for unassigned users"},
+    {"id":1001, "name":"System Admin", "description":"Role for Administrators"},
+    {"id":1002, "name":"STS Manager", "description":"Role for STS Managers"},
+    {"id":1003, "name":"Landfill Manager", "description":"Role for Landfill Managers"}
+]
 
 SQLALCHEMY_DATABASE_URL = settings.database_url
 
@@ -23,15 +31,21 @@ def get_db():
     finally:
         db.close()
 
-# while True:
 
-#     try:
-#         conn = psycopg2.connect(host='localhost', database='postgres', user='postgres',
-#                                 password='postgres', cursor_factory=RealDictCursor)
-#         cursor = conn.cursor()
-#         print("Database connection was succesfull!")
-#         break
-#     except Exception as error:
-#         print("Connecting to database failed")
-#         print("Error: ", error)
-#         time.sleep(2)
+def seed():
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    try:
+        for role in initial_roles:
+            db_role = models.Role(**role)
+            if db.query(models.Role).filter(models.Role.id == db_role.id).first():
+                continue
+            db.add(db_role)
+            db.commit()
+        print("Roles seeded successfully")
+    except Exception as error:
+        print("Error seeding roles: ", error)
+        db.rollback()
+    finally:
+        db.close()
+        print("Database connection closed")
