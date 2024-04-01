@@ -57,48 +57,6 @@ const Usermanage = () => {
       const router = useRouter();
       const [users, setUsers] = useState([]);
 
-      useEffect(() => {
-            const token = localStorage.getItem('access_token');
-            console.log(token);
-            Promise.all([
-                  axios.get('http://localhost:5000/users', {
-                        headers: {
-                              Authorization: `Bearer ${token}`
-                        }
-                  })]).then((response) => {
-
-                        if (response[0].status == 200) {
-                              setUsers(response[0].data);
-                              console.log(response[0].data);
-
-                              setAllComponentsLoaded(true);
-                        }
-                        else {
-
-                        }
-
-                  }
-                  ).catch((error) => {
-                        if (error.response.data.detail == "Insufficicent Permissions") {
-                              router.push("/user")
-                        }
-                        else {
-                              router.push("/Home")
-                        }
-
-                  });
-      }, []);
-
-      if (!allComponentsLoaded) {
-            return (
-                  <div className="w-full h-screen flex flex-col justify-center items-center">
-
-                        <ToastContainer />
-                        <ReactLoading type={"cylon"} height={100} width={100} />
-                  </div>
-            );
-      }
-
 
 
       return (
@@ -112,7 +70,7 @@ const Usermanage = () => {
                                     Users
                               </div>
                               <div className="w-full h-full mt-[30px] flex flex-col text-[#ffffff] font-bold text-[18px] justify-center items-start  mb-[5%]">
-                                    <UserList users={users} />
+                                    Insuffiecient Permissions
                               </div>
                         </div>
 

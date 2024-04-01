@@ -30,7 +30,7 @@ export default function admin() {
                   }
                   ).catch((error) => {
                         if (error.response.data.detail == "Insufficicent Permissions") {
-                              router.push("/dashboard")
+                              router.push("/user")
                         }
                         else {
                               router.push("/Home")

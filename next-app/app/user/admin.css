@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+
+
+.custom-search .ant-btn-primary {
+  background-color: #4d25b4;
+  border-color: rgba(255, 255, 255, 0);
+}
+
+.custom-search .ant-input {
+  background-color: #f0f0f053;
+  border: 1px solid #f0f0f000;
+  color: white;
+}
+
+.custom-search .ant-input::placeholder {
+  color: white;
+}
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 10vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+@keyframes animateL {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+.background {
+  position: fixed;
+  width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 0;
+
+}
+
+.background li {
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(15, 21, 110, 0.282);
+  opacity: 0.5;
+  animation: animateL 15s linear infinite;
+}
+
+
+
+
+.background li:nth-child(0) {
+  left: 25%;
+  width: 271px;
+  height: 271px;
+  bottom: -271px;
+  animation-delay: 1s;
+}
+
+.background li:nth-child(1) {
+  left: 67%;
+  width: 248px;
+  height: 248px;
+  bottom: -248px;
+  animation-delay: 10s;
+}
+
+.background li:nth-child(2) {
+  left: 21%;
+  width: 288px;
+  height: 288px;
+  bottom: -288px;
+  animation-delay: 15s;
+}
+
+.background li:nth-child(3) {
+  left: 13%;
+  width: 192px;
+  height: 192px;
+  bottom: -192px;
+  animation-delay: 1s;
+}
+
+.background li:nth-child(4) {
+  left: 34%;
+  width: 260px;
+  height: 260px;
+  bottom: -260px;
+  animation-delay: 7s;
+}
+
+.background li:nth-child(5) {
+  left: 68%;
+  width: 282px;
+  height: 282px;
+  bottom: -282px;
+  animation-delay: 30s;
+}
+
+.background li:nth-child(6) {
+  left: 22%;
+  width: 304px;
+  height: 304px;
+  bottom: -304px;
+  animation-delay: 8s;
+}
+
+.background li:nth-child(7) {
+  left: 31%;
+  width: 206px;
+  height: 206px;
+  bottom: -206px;
+  animation-delay: 20s;
+}
+
+.background li:nth-child(8) {
+  left: 42%;
+  width: 256px;
+  height: 256px;
+  bottom: -256px;
+  animation-delay: 3s;
+}
+
+.background li:nth-child(9) {
+  left: 55%;
+  width: 345px;
+  height: 345px;
+  bottom: -345px;
+  animation-delay: 6s;
+}
+
+.background li:nth-child(10) {
+  left: 21%;
+  width: 203px;
+  height: 203px;
+  bottom: -203px;
+  animation-delay: 5s;
+}
+
+
+@keyframes scaleup {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(2);
+  }
+
+}
+
+.hoverdraw:hover {
+  transform: scale(1.02)
+}
+
+.hoverdraw {
+  transition: transform .2s;
+  cursor: pointer;
+  margin-top: 5%;
+  margin-bottom: 10%;
+
+  /* Animation */
+}
+
+@keyframes draweropen {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-200px);
+  }
+
+}
+
+.open-drawer {
+  animation: draweropen 0.5s forwards;
+}
+
+@keyframes drawerclose {
+  0% {
+    transform: translateX(-200px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+
+}
+
+.close-drawer {
+  animation: drawerclose 0.5s forwards;
+}
