@@ -13,6 +13,10 @@ docker compose up --build
 Use [http://localhost:3000](http://localhost:3000) to access frontend.
 Use [http://localhost:5000](http://localhost:5000) to access backend.
 
+Default login credentials:
+- Username: admin@cs.com
+- Password: admin
+
 ## Caution
 If any stage of the build fails or force stopped, make sure to remove data volume for the db
 ```bash
