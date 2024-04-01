@@ -1,6 +1,6 @@
 ## EcoSync (Code Samurai 2024 – Phase 2)
 
-Administrative panel prototype for DNCC solid waste management, built during a hackathon. The problem statement is in `Code Samurai 2024 - Phase 2 Problem.md`.
+Administrative panel prototype for DNCC solid waste management, built during a hackathon. The problem statement is in [Code Samurai 2024 Phase 2 Problem](./Code%20Samurai%202024%20-%20Phase%202%20Problem.md)
 
 ### Monorepo Layout
 - `fast-server/`: FastAPI backend (Auth, Users, RBAC), PostgreSQL via Docker
