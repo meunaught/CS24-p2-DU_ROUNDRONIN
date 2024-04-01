@@ -61,7 +61,9 @@ const Sidebar = () => {
                                           <div>Create User</div>
                                     </div>
                               </div>
-                              <div className="w-full border-t-[1px] border-[#f7f5f531] pl-[10%] ">
+                              <div className="w-full border-t-[1px] border-[#f7f5f531] pl-[10%] " onClick={() => {
+                                    router.push("/admin/Usermanagement")
+                              }}>
                                     <div className="text-[18px] text-white pt-2  font-rocknroll w-full justify-start items-center flex-row flex gap-3 hoverdraw  " >
                                           <FaUsers />
                                           <div>User Management</div>

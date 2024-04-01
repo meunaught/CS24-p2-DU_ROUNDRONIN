@@ -42,6 +42,39 @@ const Login = () => {
       const router = useRouter();
       const [email, setEmail] = useState("");
       const [password, setPassword] = useState("");
+
+
+      useEffect(() => {
+            const token = localStorage.getItem('access_token');
+            console.log(token);
+            Promise.all([
+                  axios.get('http://localhost:5000/users', {
+                        headers: {
+                              Authorization: `Bearer ${token}`
+                        }
+                  })]).then((response) => {
+                        console.log("sd");
+
+                        if (response[0].status == 200) {
+                              router.push("/admin")
+                        }
+                        else {
+
+                        }
+
+                  }
+                  ).catch((error) => {
+                        if (error.response.data.detail == "Insufficicent Permissions") {
+                              router.push("/dashboard")
+                        }
+                        else {
+                              setAllComponentsLoaded(true);
+                        }
+
+                  });
+      }, []);
+
+
       const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             setEmail(event.target.value);
       };
@@ -78,7 +111,7 @@ const Login = () => {
 
                         localStorage.setItem('access_token', access_token);
 
-                        console.log('Access Token stored:', localStorage.getItem('accessToken'));
+                        console.log('Access Token stored:', localStorage.getItem('access_token'));
 
                         toast.success("Login Successful !", {
                               position: "bottom-right",
@@ -90,8 +123,32 @@ const Login = () => {
                               progress: undefined
                         });
                         setAllComponentsLoaded(true);
+                        Promise.all([
+                              axios.get('http://localhost:5000/users', {
+                                    headers: {
+                                          Authorization: `Bearer ${access_token}`
+                                    }
+                              })]).then((response) => {
+                                    console.log("sd");
 
-                        router.push("/");
+                                    if (response[0].status == 200) {
+                                          router.push("/admin")
+                                    }
+                                    else {
+
+                                    }
+
+                              }
+                              ).catch((error) => {
+                                    if (error.response.data.detail == "Insufficicent Permissions") {
+                                          router.push("/dashboard")
+                                    }
+                                    else {
+                                          setAllComponentsLoaded(true);
+                                    }
+
+                              });
+
 
                   }
                   ).catch((error) => {
@@ -144,7 +201,7 @@ const Login = () => {
                               <div className="font-sans text-[#fff9] text-sm">Username</div>
                               <Input
                                     size="large"
-                                    placeholder="Enter your username"
+                                    placeholder="Enter your username or email"
                                     className="custom-input mt-3"
                                     prefix={<CiUser />}
                                     value={email}
@@ -155,7 +212,7 @@ const Login = () => {
                               <Input
                                     size="large"
                                     type="password"
-                                    placeholder="Enter your email"
+                                    placeholder="Enter your password"
                                     className="custom-input  mt-3"
                                     prefix={<CiLock />}
                                     value={password}

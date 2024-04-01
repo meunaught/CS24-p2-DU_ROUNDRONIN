@@ -7,26 +7,44 @@ import { FaPhoneAlt } from "react-icons/fa";
 import ReactLoading from 'react-loading';
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 const Createuser = () => {
       const [allComponentsLoaded, setAllComponentsLoaded] = useState(false);
-      const [email, setEmail] = useState('')
-      const [name, setName] = useState('')
-      const [phone, setPhone] = useState('')
+      const [email, setEmail] = useState("")
+      const [name, setName] = useState("")
+      const [phone, setPhone] = useState("")
       const router = useRouter();
 
       useEffect(() => {
-            // Simulate loading of components or content
+            const token = localStorage.getItem('access_token');
+            console.log(token);
             Promise.all([
-                  // Simulate async loading, e.g., fetching data or waiting for images to load
-                  new Promise((resolve) => setTimeout(resolve, 0)), // Placeholder for actual loading logic
-                  new Promise((resolve) => setTimeout(resolve, 0)), // Adjust times based on your needs
-                  // Add more promises for other components or content
-            ]).then(() => {
-                  setAllComponentsLoaded(true);
-            });
+                  axios.get('http://localhost:5000/users', {
+                        headers: {
+                              Authorization: `Bearer ${token}`
+                        }
+                  })]).then((response) => {
+
+                        if (response[0].status == 200) {
+                              setAllComponentsLoaded(true);
+                        }
+                        else {
+
+                        }
+
+                  }
+                  ).catch((error) => {
+                        if (error.response.data.detail == "Insufficicent Permissions") {
+                              router.push("/dashboard")
+                        }
+                        else {
+                              router.push("/Home")
+                        }
+
+                  });
       }, []);
 
       if (!allComponentsLoaded) {
@@ -54,23 +72,50 @@ const Createuser = () => {
                   });
                   return;
             }
+            else if (email.length < 5 || email.length > 50 || !email.includes('@') || !email.includes('.')) {
 
+                  toast.error("Invalid Email", {
+
+                        position: "bottom-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined
+                  });
+                  return;
+
+            }
+
+            const token = localStorage.getItem('access_token');
             setAllComponentsLoaded(false)
+            const data = {
+                  email: "email.toString()",
+                  password: "12345678",
+                  name: "name.toString()",
+                  phone_number: "phonetoString()",
+                  role_id: 1000
+            }
+            console.log(data);
+
             Promise.all([
                   axios.post('http://localhost:5000/users',
                         {
                               "email": email,
-                              "password": "string",
-                              "role_id": 0
+                              "password": "12345678",
+                              "name": name,
+                              "phone_number": phone,
+                              "role_id": 1000
+                        }
+                        , {
+                              headers: {
+                                    Authorization: `Bearer ${token}`
+                              }
                         }
                   )]).then((response) => {
-                        const { access_token } = response[0].data;
 
-                        localStorage.setItem('access_token', access_token);
-
-                        console.log('Access Token stored:', localStorage.getItem('accessToken'));
-
-                        toast.success("Login Successful !", {
+                        toast.success("User Created", {
                               position: "bottom-right",
                               autoClose: 5000,
                               hideProgressBar: false,
@@ -81,7 +126,6 @@ const Createuser = () => {
                         });
                         setAllComponentsLoaded(true);
 
-                        router.push("/");
 
                   }
                   ).catch((error) => {
@@ -111,7 +155,7 @@ const Createuser = () => {
       };
       return (
             <div className="w-full h-full flex flex-col justify-center items-center ml-[5%]">
-
+                  <ToastContainer />
                   <div className="w-full  min-h-screen flex flex-col justify-center items-center z-10 pt-[20%] ">
                         <div className={`w-[45%]  h-full  bg-[#ffffff09] rounded-xl m-10  bottom-1 border-white min-w-[300px] backdrop-blur-lg  py[200px] flex flex-col justify-center items-center pt-[2%] `}>
 
