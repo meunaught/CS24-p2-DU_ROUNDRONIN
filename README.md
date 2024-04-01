@@ -1,22 +1,27 @@
+## Prerequisites
+Have the following ports usable, i.e., not blocked by any network firewall or not in use already.
+- 3000 [frontend]
+- 5000 [backend] [MacOS uses port 5000 for airdrop, take caution]
+- 5432 [db]
+
 ## Development
-Run both servers together:
+Run the services:
 ```bash
 docker compose up --build
 ```
 
-Run front-end only:
+Use [http://localhost:3000](http://localhost:3000) to access frontend.
+Use [http://localhost:5000](http://localhost:5000) to access backend.
+
+## Caution
+If any stage of the build fails or force stopped, make sure to remove data volume for the db
 ```bash
-docker compose up next-app --build
+docker volume rm cs24-p2-du_roundronin_postgres-data
 ```
-
-Run backend only:
+Modify the volume name accordingly by checking with
 ```bash
-docker compose up fast-server --build
+docker volume ls
 ```
-
-Open [http://localhost:3000](http://localhost:3000) to access frontend.
-Open [http://localhost:5000](http://localhost:5000) to access backend.
-
 
 ## Notes
 The repo is devcontainer compatible, you can simply open it in github codespaces and run the docker commands from there.
