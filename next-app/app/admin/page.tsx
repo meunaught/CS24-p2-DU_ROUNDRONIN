@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
-
+import Dashboard from "./Dashboard/page";
 
 export default function admin() {
 
@@ -51,6 +51,7 @@ export default function admin() {
 
       return (
             <>
+                  <Dashboard />
             </>
       );
 }
