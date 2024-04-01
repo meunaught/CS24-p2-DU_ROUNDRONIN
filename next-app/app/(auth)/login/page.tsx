@@ -65,7 +65,7 @@ const Login = () => {
                   }
                   ).catch((error) => {
                         if (error.response.data.detail == "Insufficicent Permissions") {
-                              router.push("/dashboard")
+                              router.push("/user/")
                         }
                         else {
                               setAllComponentsLoaded(true);
@@ -141,7 +141,7 @@ const Login = () => {
                               }
                               ).catch((error) => {
                                     if (error.response.data.detail == "Insufficicent Permissions") {
-                                          router.push("/dashboard")
+                                          router.push("/user")
                                     }
                                     else {
                                           setAllComponentsLoaded(true);

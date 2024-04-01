@@ -38,31 +38,33 @@ const Sidebar = () => {
                               {!open ? <FaChevronLeft /> : <FaChevronRight />}
                         </div>
                         <div className="text-[23px] max-xl:text-[20px] max-lg:text-[19px] text-white mt-[15%] font-rocknroll pl-[10%] whitespace-nowrap" >
-                              Code Samurai
+                              Mahadi Hasan
                               <div className="w-full flex flex-col  text-[20px] justify-center items-center">
                                     <div className="text-[20px] text-white mt-[3%] font-rocknroll " >
-                                          Admin
+                                          STS Manager
                                     </div>
                               </div>
                         </div>
 
                         <div className="w-full justify-start items-center flex-col  ">
                               <div className="w-full border-t-[1px] border-[#f7f5f531] pl-[10%] mt-[25%] ">
-                                    <div className="text-[18px] text-white pt-2  font-rocknroll w-full justify-start items-center flex-row flex gap-3 hoverdraw  " >
+                                    <div className="text-[18px] text-white pt-2  font-rocknroll w-full justify-start items-center flex-row flex gap-3 hoverdraw  " onClick={() => {
+                                          router.push("/user/")
+                                    }}>
                                           <MdDashboard />
                                           <div>Dashboard</div>
                                     </div>
                               </div>
                               <div className="w-full border-t-[1px] border-[#f7f5f531] pl-[10%] ">
                                     <div className="text-[18px] text-white pt-2  font-rocknroll w-full justify-start items-center flex-row flex gap-3 hoverdraw  " onClick={() => {
-                                          router.push("/admin/create-user")
+                                          router.push("/user/create-user")
                                     }}>
                                           <FaRegUser />
                                           <div>Create User</div>
                                     </div>
                               </div>
                               <div className="w-full border-t-[1px] border-[#f7f5f531] pl-[10%] " onClick={() => {
-                                    router.push("/admin/Usermanagement")
+                                    router.push("/user/Usermanagement")
                               }}>
                                     <div className="text-[18px] text-white pt-2  font-rocknroll w-full justify-start items-center flex-row flex gap-3 hoverdraw  " >
                                           <FaUsers />
