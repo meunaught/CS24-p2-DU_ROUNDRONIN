@@ -8,8 +8,8 @@ services:
     restart: always
     ports:
       - 3000:3000
-    # depends_on:
-    #   - fast-server
+    depends_on:
+      - fast-server
   fast-server:
     container_name: fast-server
     build: ./fast-server
