@@ -1,83 +1,29 @@
 ## EcoSync (Code Samurai 2024 – Phase 2)
 
-Administrative panel prototype for DNCC solid waste management, built during a hackathon. The problem statement is in [Code Samurai 2024 Phase 2 Problem](./Code%20Samurai%202024%20-%20Phase%202%20Problem.md)
+Hackathon prototype of an admin panel for DNCC solid waste management. Problem statement: [Code Samurai 2024 Phase 2 Problem](./Code%20Samurai%202024%20-%20Phase%202%20Problem.md)
 
-### Monorepo Layout
-- `fast-server/`: FastAPI backend (Auth, Users, RBAC), PostgreSQL via Docker
-- `next-app/`: Next.js 14 frontend (admin/user dashboards and auth views)
-- `docker-compose.yml`: Spins up frontend, backend, and PostgreSQL
+### What We Built
+- **Backend** (`fast-server/`): FastAPI + PostgreSQL (SQLAlchemy, Alembic) with JWT login, user management, and role-based access control
+- **Frontend** (`next-app/`): Next.js 14 + Tailwind, MUI, and Ant Design, with login and password-reset views plus admin/user dashboards (user list, create user)
+- **Startup seeding**: the four roles (Unassigned, System Admin, STS Manager, Landfill Manager) and a System Admin account
+- **Docker Compose**: one command runs the frontend, backend, and database
 
-### Prerequisites
-Have these ports available:
-- 3000 (frontend)
-- 5000 (backend) — note: macOS can reserve port 5000 due to AirDrop; change if needed
-- 5432 (database)
+### Run
+Requires Docker, with ports 3000, 5000, and 5432 free (on macOS, AirPlay Receiver may hold 5000).
 
-Install requirements:
-- Docker and Docker Compose
-
-### Quick Start (Docker)
-Run all services:
 ```bash
 docker compose up --build
 ```
 
-URLs:
 - Frontend: http://localhost:3000
-- Backend (FastAPI): http://localhost:5000
+- Backend: http://localhost:5000 (interactive docs at `/docs`)
+- Login: `admin@cs.com` / `admin`
 
-Seeded default credentials (created on backend startup):
-- Username: admin@cs.com
-- Password: admin
+### API
+| Prefix | Endpoints |
+|---|---|
+| `/auth` | `POST /login`, `POST /logout`, `PUT /change-password`, `POST /reset-password/initiate` and `/confirm` (stubs) |
+| `/users` | `GET /`, `POST /`, `GET /roles`, `GET /{userId}`, `PUT /{userId}`, `DELETE /{userId}`, `PUT /{userId}/roles/` |
+| `/rbac` | `GET /permissions`, `POST /permissions`, `POST /roles`, `DELETE /roles/{roleId}`, `GET /roles/{roleId}/permissions`, `POST /roles/{roleId}/permissions/` |
 
-### Backend Overview
-- Framework: FastAPI
-- Auth: OAuth2 password flow with JWT (bearer token)
-- Database: PostgreSQL via SQLAlchemy ORM
-- Automatic seed on startup: roles, a superuser, and a basic permission (see `app/database.py`)
-
-Base URL: `http://localhost:5000`
-
-Selected endpoints (see `app/routers`):
-- Auth (`/auth`)
-  - `POST /auth/login` (form-data `username`, `password`) → `{ access_token, token_type }`
-  - `POST /auth/logout` → clears `bearer` cookie (stateless JWT remains client-side)
-  - `PUT  /auth/change-password` (requires bearer) → updates password
-  - `POST /auth/reset-password/initiate` (stub)
-  - `POST /auth/reset-password/confirm` (stub)
-- Users (`/users`)
-  - `GET  /users/` → list users (System Admin only)
-  - `GET  /users/roles` → list roles
-  - `GET  /users/{userId}` → get user by id
-  - `POST /users/` → create user (System Admin only)
-  - `PUT  /users/{userId}` → update own email or admin can update any
-  - `PUT  /users/{userId}/roles/` → assign role to user (System Admin only)
-  - `DELETE /users/{userId}` → delete user (System Admin only)
-- RBAC (`/rbac`)
-  - `GET    /rbac/permissions` → list permissions (System Admin only)
-  - `GET    /rbac/roles/{roleId}/permissions` → permissions for a role (System Admin only)
-  - `POST   /rbac/roles` → create role (System Admin only)
-  - `POST   /rbac/permissions` → create permission (System Admin only)
-  - `POST   /rbac/roles/{roleId}/permissions/` → add permission to role (System Admin only)
-  - `DELETE /rbac/roles/{roleId}` → delete role (cannot delete default `1000`)
-
-Auth details:
-- Token URL: `/auth/login`
-- Include header: `Authorization: Bearer <token>`
-- Superuser check is based on `role_id == 1001`
-
-### Frontend Overview
-- Framework: Next.js 14, React 18, Tailwind CSS, MUI/Ant Design
-- App routes under `next-app/app/`
-  - `(auth)/login`, `(auth)/resetpassword`, `(auth)/newpassword`
-  - `admin/*` and `user/*` dashboard layouts and pages
-
-### Troubleshooting
-- If port 5000 conflicts on macOS: either stop the conflicting service or change the published port in `docker-compose.yml`.
-- Reset DB data volume if migrations/seeding are inconsistent:
-  ```bash
-  docker compose down
-  docker volume ls | grep postgres-data
-  docker volume rm <the_project_scoped_postgres-data_volume>
-  docker compose up --build
-  ```
+Send `Authorization: Bearer <token>` using the token from `/auth/login`. Admin-only routes require the System Admin role (`1001`); users can update their own details.
