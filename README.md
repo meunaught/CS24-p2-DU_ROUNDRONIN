@@ -81,6 +81,3 @@ Auth details:
   docker volume rm <the_project_scoped_postgres-data_volume>
   docker compose up --build
   ```
-
-### Attribution
-This repository implements core parts of the Code Samurai 2024 – Phase 2 problem. See `Code Samurai 2024 - Phase 2 Problem.md` for the full brief, scope, and scoring.
